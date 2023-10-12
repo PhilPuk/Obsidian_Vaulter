@@ -1,7 +1,7 @@
 # Obsidian Vaulter
 
 ### What is this?
-This script automates some processes for you git vault. 
+    This script automates some processes for you obsidian vault. 
 
 ### How to use?
     Set your vault path in the obsidian_config.py file.
@@ -11,13 +11,13 @@ This script automates some processes for you git vault.
     Soon it will be changed to a installation process.
 
 ### Features
-- Automatic journal creation.
-- Automatic journal template entry creation.
-- Template is easily customizable.
+    - Automatic journal creation.
+    - Automatic journal template entry creation.
+    - Template is easily customizable.
 
 ### Features to be added
-- More customizable features / making currents one more customizable.
-- Automatic library
+    - More customizable features / making currents one more customizable.
+    - Automatic library
 
 ### How to contribute?
     TBD
