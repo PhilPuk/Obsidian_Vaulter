@@ -34,6 +34,7 @@ class Time:
         return datetime.datetime.now().strftime(format)
 
     def getTimeStamp(self, format: str="%d.%m.%Y %H:%M:%S") -> str:
+        '''Returns a timestamp in the given format. Example standart format: 01.01.2021 00:00:00'''
         return datetime.datetime.now().strftime(format)
     
 my_Time = Time()

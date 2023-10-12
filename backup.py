@@ -10,6 +10,7 @@ class Backup:
         self._backup_path.mkdir(parents=True, exist_ok=True)
 
     def createBackup(self, file_path_to_backup: str, backup_path: str, extend_file_name_with_timestamp: bool=True) -> None:
+        '''Creates a backup of the given file or folder in the given backup path.'''
         try:
             backup_path = Path(backup_path)
             file_path_to_backup = Path(file_path_to_backup)
@@ -29,4 +30,5 @@ class Backup:
             logger.warn(f"Could not create backup of {file_path_to_backup} in {backup_path}")
 
     def createBackupOfVault(self):
+        '''Creates a backup of the vault folder.'''
         self.createBackup(ObsidianConfig().getVaultPath(), self._backup_path)

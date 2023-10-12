@@ -23,6 +23,7 @@ class Template:
         return self._template_folder_path
 
     def readTemplateFile(self, template_file_path: str) -> str:
+        '''Reads a template file and returns its content as a string.'''
         try: 
             with open(template_file_path, 'r') as f:
                 template_file_content = f.read()

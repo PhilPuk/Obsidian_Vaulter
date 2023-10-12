@@ -13,12 +13,14 @@ class Journal:
         self._journal_page_template = my_Template.getJournalPageTemplate
 
     def newJournalMonth(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
+        '''Creates a new journal month with all the days in it, aswell as a collector page.'''
         self._obsidian_journal_month_path.mkdir(parents=True, exist_ok=True)
         self.newMonthCollectorPage(month, year)
         self.createAllJournalMonthPages(my_Time.getDaysAmountInMonth(month, year), month, year)
         logger.info(f"Created new journal month: {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
         
     def createAllJournalMonthPages(self, daysInMonth: int=0, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
+        '''Creates all journal pages for the month inside week folders.'''
         for day in range(1, daysInMonth + 1):
             week_number = (day - 1) // 7 + 1
             week_folder_path = self._obsidian_journal_month_path / f"Week {week_number}"
@@ -28,10 +30,10 @@ class Journal:
             if not (week_folder_path / file_name).exists():
                 self.newJournalPage(week_folder_path / file_name)
 
-            
         logger.info(f"Created all journal pages for {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
 
     def newJournalPage(self, file_title: str):
+        '''Creates a new journal page with the given title.'''
         file_path = self._obsidian_journal_month_path / file_title
         if not file_path.exists():
             with open(file_path, 'a') as new_page:
@@ -45,6 +47,7 @@ class Journal:
             logger.info(f"Created new month collector page: {my_Time.getMonthName(month)} {str(year)}.md")
 
     def FillMonthWithDateEntries(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear(), collector_page_path: str=None):
+        '''Fills the month collector page with all the [[dates]] in the month.'''
         with open(collector_page_path, 'w') as f:
             f.write("\n\n### Collector page for graphic view.\n")
             f.write("### Only edit this page if you know what you are doing!\n\n\n")

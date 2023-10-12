@@ -16,6 +16,7 @@ class Library:
 
 class Book:
     def __init__(self, title: str="None", author: str="None", new_book: bool=True):
+        '''Creates a new book page for obsidian.'''
         self._title = title.replace(" ", "_")
         self._author = author
         self._books_path = obs_config.getVaultPath() / "Books"
@@ -29,6 +30,7 @@ class Book:
         logger.info(f"Created new book page for obsidian: {self._title}.md")
 
     def fillBookPageWithTemplate(self):
+        '''Fills the book page with the book page template.'''
         with open(self._current_book_path, 'a') as f:
             f.write(self._book_page_template)        
 
@@ -37,6 +39,7 @@ class BookFactory:
         pass
 
     def newBook(self, title: str):
+        '''Returns a new book object.'''
         return Book(title)
     
 def main():
