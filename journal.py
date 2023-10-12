@@ -1,9 +1,8 @@
 from hmac import new
 from logger_config import logger
-from obsidian_time import Time
+from obsidian_time import my_Time
 from obsidian_config import ObsidianConfig
 from pathlib import Path
-my_Time = Time()
 
 class Journal:
     def __init__(self):
@@ -38,16 +37,6 @@ class Journal:
         if not file_path.exists():
             with open(file_path, 'a') as new_page:
                 new_page.write(self._journal_page_template)
-'''            with open(file_path, 'a') as f:
-                f.write("# Morning\n---\n")
-                f.write("\n###### 1.  What am I grateful for?\n   \n")
-                f.write("###### 2. What is my most important task today?\n  \n")
-                f.write("###### 3. What story-worthy moment happened yesterday?\n   \n")
-                f.write("###### 4. How am I feeling right now?\n    \n")
-                f.write("###### 5. What's working right now? What could be better?\n    \n")
-                f.write("# Noon/Afternoon (12 Uhr/14 Uhr)\n---\n\n")
-                f.write("# Evening/Night (16 Uhr)\n---\n\n")'''
-
         
 def main():
     logger.info("Starting journal creation")

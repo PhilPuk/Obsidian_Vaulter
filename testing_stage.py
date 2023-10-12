@@ -1,9 +1,8 @@
 from pathlib import Path
 from logger_config import logger
-from obsidian_time import Time
+from obsidian_time import my_Time
 from obsidian_config import ObsidianConfig
 
-my_Time = Time()
 obs_config = ObsidianConfig()
 
 def createMonthCollectorPage(month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):

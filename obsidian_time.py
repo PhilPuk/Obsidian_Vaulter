@@ -35,10 +35,5 @@ class Time:
 
     def getTimeStamp(self, format: str="%d.%m.%Y %H:%M:%S") -> str:
         return datetime.datetime.now().strftime(format)
-
-    def degugPrintAll(self):
-        print(self.getCurrentMonth())
-        print(self.getCurrentYear())
-        print(self.getCurrentMonthName())
-        print(self.getDayName(2023, 10, 3))
-        print(self.getDaysAmountInMonth(10, 2023))
+    
+my_Time = Time()

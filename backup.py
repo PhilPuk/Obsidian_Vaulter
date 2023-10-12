@@ -1,10 +1,8 @@
 from pathlib import Path
 from logger_config import logger
-from obsidian_time import Time
+from obsidian_time import my_Time
 from obsidian_config import ObsidianConfig
 from shutil import copyfile, copytree
-
-my_Time = Time()
 
 class Backup:
     def __init__(self):
