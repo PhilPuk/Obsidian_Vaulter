@@ -1,7 +1,8 @@
+from hmac import new
 from logger_config import logger
 from obsidian_time import Time
 from obsidian_config import ObsidianConfig
-
+from pathlib import Path
 my_Time = Time()
 
 class Journal:
@@ -9,6 +10,8 @@ class Journal:
         self._obsidian_journal_path = ObsidianConfig().getVaultPath() / "Journal"
         self._obsidian_journal_year_path = self._obsidian_journal_path / str(my_Time.getCurrentYear())
         self._obsidian_journal_month_path = self._obsidian_journal_year_path / str(my_Time.getCurrentMonthName())
+        self._journal_page_template_path = Path(__file__).parent / "templates" / "journal_page_template.md"
+        self._journal_page_template = self.readJournalPageTemplate()
 
     def newJournalMonth(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
         self._obsidian_journal_month_path.mkdir(parents=True, exist_ok=True)
@@ -25,16 +28,26 @@ class Journal:
             self.newJournalPage(week_folder / file_name)
         logger.info(f"Created all journal pages for {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
 
+    def readJournalPageTemplate(self) -> str:
+        with open(self._journal_page_template_path, 'r') as f:
+            journal_page_template = f.read()
+        return journal_page_template
+
     def newJournalPage(self, file_title: str):
-        with open(self._obsidian_journal_month_path.joinpath(file_title), 'a') as f:
-            f.write("# Morning\n---\n")
-            f.write("\n###### 1.  What am I grateful for?\n   \n")
-            f.write("###### 2. What is my most important task today?\n  \n")
-            f.write("###### 3. What story-worthy moment happened yesterday?\n   \n")
-            f.write("###### 4. How am I feeling right now?\n    \n")
-            f.write("###### 5. What's working right now? What could be better?\n    \n")
-            f.write("# Noon/Afternoon (12 Uhr/14 Uhr)\n---\n\n")
-            f.write("# Evening/Night (16 Uhr)\n---\n\n")
+        file_path = self._obsidian_journal_month_path / file_title
+        if not file_path.exists():
+            with open(file_path, 'a') as new_page:
+                new_page.write(self._journal_page_template)
+'''            with open(file_path, 'a') as f:
+                f.write("# Morning\n---\n")
+                f.write("\n###### 1.  What am I grateful for?\n   \n")
+                f.write("###### 2. What is my most important task today?\n  \n")
+                f.write("###### 3. What story-worthy moment happened yesterday?\n   \n")
+                f.write("###### 4. How am I feeling right now?\n    \n")
+                f.write("###### 5. What's working right now? What could be better?\n    \n")
+                f.write("# Noon/Afternoon (12 Uhr/14 Uhr)\n---\n\n")
+                f.write("# Evening/Night (16 Uhr)\n---\n\n")'''
+
         
 def main():
     logger.info("Starting journal creation")
@@ -43,4 +56,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
