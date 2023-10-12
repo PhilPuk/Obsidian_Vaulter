@@ -1,0 +1,8 @@
+# Logs
+log.txt
+
+# Backups
+Backup/*
+
+# Pycache
+__pycache__/
