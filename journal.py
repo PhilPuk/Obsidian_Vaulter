@@ -14,17 +14,21 @@ class Journal:
 
     def newJournalMonth(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
         self._obsidian_journal_month_path.mkdir(parents=True, exist_ok=True)
+        self.newMonthCollectorPage(month, year)
         self.createAllJournalMonthPages(my_Time.getDaysAmountInMonth(month, year), month, year)
         logger.info(f"Created new journal month: {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
         
     def createAllJournalMonthPages(self, daysInMonth: int=0, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
         for day in range(1, daysInMonth + 1):
             week_number = (day - 1) // 7 + 1
-            week_folder = self._obsidian_journal_month_path / f"Week {week_number}"
-            week_folder.mkdir(parents=True, exist_ok=True)
-
+            week_folder_path = self._obsidian_journal_month_path / f"Week {week_number}"
+            week_folder_path.mkdir(parents=True, exist_ok=True)
             file_name = f"{str(day)}.{month}.{year} {my_Time.getDayName(year, month, day)}.md"
-            self.newJournalPage(week_folder / file_name)
+            
+            if not (week_folder_path / file_name).exists():
+                self.newJournalPage(week_folder_path / file_name)
+
+            
         logger.info(f"Created all journal pages for {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
 
     def newJournalPage(self, file_title: str):
@@ -32,6 +36,21 @@ class Journal:
         if not file_path.exists():
             with open(file_path, 'a') as new_page:
                 new_page.write(self._journal_page_template)
+
+    def newMonthCollectorPage(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
+        '''Creates a new page for the month. This pages contains all the dates with [[]] braces for the graphic view.'''
+        collector_page_path = self._obsidian_journal_month_path / f"{my_Time.getMonthName(month)} {str(year)}.md"
+        if not collector_page_path.exists():
+            self.FillMonthWithDateEntries(month, year, collector_page_path)
+            logger.info(f"Created new month collector page: {my_Time.getMonthName(month)} {str(year)}.md")
+
+    def FillMonthWithDateEntries(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear(), collector_page_path: str=None):
+        with open(collector_page_path, 'w') as f:
+            f.write("\n\n### Collector page for graphic view.\n")
+            f.write("### Only edit this page if you know what you are doing!\n\n\n")
+            for day in range(my_Time.getDaysAmountInMonth(month, year)):
+                date = f"{day + 1}.{month}.{year} {my_Time.getDayName(year, month, day + 1)}"
+                f.write(f"\n[[{date}]]\n")
         
 def main():
     logger.info("Starting journal creation")
