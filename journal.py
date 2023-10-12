@@ -3,14 +3,14 @@ from logger_config import logger
 from obsidian_time import my_Time
 from obsidian_config import ObsidianConfig
 from pathlib import Path
+from template import my_Template
 
 class Journal:
     def __init__(self):
         self._obsidian_journal_path = ObsidianConfig().getVaultPath() / "Journal"
         self._obsidian_journal_year_path = self._obsidian_journal_path / str(my_Time.getCurrentYear())
         self._obsidian_journal_month_path = self._obsidian_journal_year_path / str(my_Time.getCurrentMonthName())
-        self._journal_page_template_path = Path(__file__).parent / "templates" / "journal_page_template.md"
-        self._journal_page_template = self.readJournalPageTemplate()
+        self._journal_page_template = my_Template.getJournalPageTemplate
 
     def newJournalMonth(self, month: int=my_Time.getCurrentMonth(), year: int=my_Time.getCurrentYear()):
         self._obsidian_journal_month_path.mkdir(parents=True, exist_ok=True)
@@ -26,11 +26,6 @@ class Journal:
             file_name = f"{str(day)}.{month}.{year} {my_Time.getDayName(year, month, day)}.md"
             self.newJournalPage(week_folder / file_name)
         logger.info(f"Created all journal pages for {my_Time.getCurrentMonthName()} {my_Time.getCurrentYear()}")
-
-    def readJournalPageTemplate(self) -> str:
-        with open(self._journal_page_template_path, 'r') as f:
-            journal_page_template = f.read()
-        return journal_page_template
 
     def newJournalPage(self, file_title: str):
         file_path = self._obsidian_journal_month_path / file_title
